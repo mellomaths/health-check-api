@@ -22,17 +22,17 @@ async def health_check(
 ):
     log = LOGGER.getChild("health_check")
     log.info("Checking health of the application")
-    
+
     # Check PostgreSQL health
     log.info("Checking postgres health")
     is_postgres_up, postgres_error = check_postgres_health(session)
     log.info(f"Postgres health check response: {is_postgres_up}, {postgres_error}")
-    
+
     # Check Redis health
     log.info("Checking redis health")
     is_redis_up, redis_error = check_redis_health()
     log.info(f"Redis health check response: {is_redis_up}, {redis_error}")
-    
+
     # Determine overall health status
     overall_health = is_postgres_up and is_redis_up
     status_code = status.HTTP_200_OK
@@ -40,8 +40,8 @@ async def health_check(
         status_code = status.HTTP_503_SERVICE_UNAVAILABLE
 
     response = HealthCheckResponse(
-        success=overall_health, 
-        up=ServiceStatusType(postgres=is_postgres_up, redis=is_redis_up)
+        success=overall_health,
+        up=ServiceStatusType(postgres=is_postgres_up, redis=is_redis_up),
     )
     log.info(f"Health check response: {response}")
     return JSONResponse(content=response.model_dump(), status_code=status_code)
