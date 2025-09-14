@@ -17,7 +17,7 @@ router = APIRouter(prefix="/check", tags=["health-check"], redirect_slashes=Fals
     response_model=HealthCheckResponse,
     responses={503: {"model": HealthCheckResponse}},
 )
-def health_check(
+async def health_check(
     session: Session = Depends(get_postgres_session),
 ):
     log = LOGGER.getChild("health_check")
@@ -53,7 +53,7 @@ def health_check(
     response_model=HealthCheckResponse,
     responses={503: {"model": HealthCheckResponse}},
 )
-def postgres_health_check(
+async def postgres_health_check(
     session: Session = Depends(get_postgres_session),
 ):
     log = LOGGER.getChild("postgres_health_check")
@@ -78,7 +78,7 @@ def postgres_health_check(
     response_model=HealthCheckResponse,
     responses={503: {"model": HealthCheckResponse}},
 )
-def redis_health_check():
+async def redis_health_check():
     log = LOGGER.getChild("redis_health_check")
     log.info("Checking redis health")
     is_redis_up, error = check_redis_health()
