@@ -40,7 +40,11 @@ def custom_openapi():
         servers=[
             {
                 "url": "http://api.homepi.net/health",
-                "description": "HomePi Health Check API",
+                "description": "HomePi",
+            },
+            {
+                "url": "http://localhost:3001",
+                "description": "Local",
             },
         ],
     )
